@@ -1,6 +1,14 @@
-# Tensor Actions
+<h1 align="center">
+  Tensor Actions
+</h1>
+<p align="center">
+  <img width="400" alt="Tensor Actions" src="https://github.com/tensor-hq/actions/assets/729235/bce956b0-3aab-4b40-96bd-14e1d4da585d" />
+</p>
+<p align="center">
+  A set of useful GitHub actions for Solana development.
+</p>
 
-A set of useful GitHub actions for Solana development.
+## Contents
 
 - [Cache Crate](./buildjet-cache-crate)
 - [Cache IDL generators](./buildjet-cache-idl-generators)
@@ -16,4 +24,4 @@ A set of useful GitHub actions for Solana development.
 
 ## License
 
-Tensor Action is distributed under the terms of the MIT license, see [LICENSE](./LICENSE) for details. The actions are mostly derived from [Metaplex Actions](https://github.com/metaplex-foundation/actions) and [action-rs](https://github.com/actions-rs).
+Tensor Actions is distributed under the terms of the MIT license, see [LICENSE](./LICENSE) for details. These actions are mostly derived from [Metaplex Actions](https://github.com/metaplex-foundation/actions) and [action-rs](https://github.com/actions-rs).

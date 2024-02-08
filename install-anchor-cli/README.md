@@ -3,7 +3,7 @@
 Install Anchor CLI with optional caching and verify the installed version.
 
 ```yaml
-- uses: nifty-oss/actions/install-anchor-cli@v1
+- uses: tensor-hq/actions/install-anchor-cli@v1
   with:
     version: "0.29.0"
     cache: true
