@@ -7,7 +7,7 @@ command on a Rust language project.
 The MIT License (MIT)
 
 Copyright (c) 2019 actions-rs team and contributors
-Copyright (c) 2024 Tensor Foundation
+Copyright (c) 2024 Tensor Protocol Foundation
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

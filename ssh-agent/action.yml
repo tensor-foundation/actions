@@ -1,0 +1,16 @@
+name: SSH Agent
+
+inputs:
+  key:
+    description: SSH private key
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - run: git submodule update --init --recursive --depth 1
+      shell: bash
+
+    - uses: webfactory/ssh-agent@v0.9.0
+      with:
+        ssh-private-key: ${{ inputs.key }}
