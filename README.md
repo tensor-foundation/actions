@@ -2,8 +2,9 @@
   Tensor Actions
 </h1>
 <p align="center">
-  <img width="400" alt="Tensor Actions" src="https://github.com/tensor-hq/actions/assets/729235/bce956b0-3aab-4b40-96bd-14e1d4da585d" />
+  <img width="400" alt="Tensor Actions" src="https://github.com/tensor-foundation/actions/assets/729235/7e90e37b-1b31-4390-bc71-10c64470ab0e" />
 </p>
+
 <p align="center">
   A set of useful GitHub actions for Solana development.
 </p>
