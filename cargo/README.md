@@ -54,7 +54,7 @@ jobs:
       - uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
-      - uses: tensor-hq/cargo@v1
+      - uses: tensor-foundation/cargo@v1
         with:
           command: build
           args: --release --all-features
@@ -129,7 +129,7 @@ jobs:
           toolchain: stable
           target: armv7-unknown-linux-gnueabihf
           override: true
-      - uses: tensor-hq/cargo@v1
+      - uses: tensor-foundation/cargo@v1
         with:
           use-cross: true
           command: build

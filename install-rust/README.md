@@ -3,7 +3,7 @@
 Install Rust with components, verify the installed versions and set the rustc hash as a `RUSTC_HASH` environment variable.
 
 ```yaml
-- uses: tensor-hq/actions/install-rust@v1
+- uses: tensor-foundation/actions/install-rust@v1
   with:
     toolchain: stable
     components: clippy,rustfmt

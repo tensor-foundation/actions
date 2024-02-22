@@ -3,7 +3,7 @@
 Installs Solana, Node.js and downloads program builds as artifacts before starting a local validator. This assumes a previous steps builds programs and uploads their builds as artifacts.
 
 ```yaml
-- uses: tensor-hq/actions/start-validator@v1
+- uses: tensor-foundation/actions/start-validator@v1
   with:
     artifacts: program-builds
     command: pnpm validator

@@ -28,7 +28,7 @@ runs:
 
     - name: Install Node.js dependencies
       if: inputs.dependencies == 'true'
-      uses: tensor-hq/actions/install-node-dependencies@v1
+      uses: tensor-foundation/actions/install-node-dependencies@v1
       with:
         cache: ${{ inputs.cache }}
         key: "node"

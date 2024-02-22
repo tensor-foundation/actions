@@ -3,7 +3,7 @@
 Filter a JSON matrix using the output of the "dorny/paths-filter" action.
 
 ```yaml
-- uses: tensor-hq/actions/filter-matrix@v1
+- uses: tensor-foundation/actions/filter-matrix@v1
   with:
     matrix: '["swap"]'
     changes: ${{ steps.paths_filter.outputs.changes }}
@@ -43,7 +43,7 @@ jobs:
 
       - name: Filter program matrix
         id: filter
-        uses: tensor-hq/actions/filter-matrix@v1
+        uses: tensor-foundation/actions/filter-matrix@v1
         with:
           matrix: ${{ vars.PROGRAMS }}
           changes: ${{ steps.changes.outputs.changes }}

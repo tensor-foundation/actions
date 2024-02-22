@@ -3,7 +3,7 @@
 Install Node.js and PNPM. Optionally download and cache the dependencies in the root folder.
 
 ```yaml
-- uses: tensor-hq/actions/install-node-with-pnpm@v1
+- uses: tensor-foundation/actions/install-node-with-pnpm@v1
   with:
     version: 18.x
     dependencies: false
