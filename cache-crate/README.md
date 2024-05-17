@@ -3,7 +3,7 @@
 Cache all folders related to the given folder, including Rust global folders and its `target` folder.
 
 ```yaml
-- uses: tensor-foundation/actions/cache-crate@v1
+- uses: tensor-foundation/actions/cache-crate@v2
   with:
     folder: ./programs/swap
     key: program-swap

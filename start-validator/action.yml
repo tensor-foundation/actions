@@ -32,13 +32,13 @@ runs:
         name: ${{ inputs.artifacts }}
 
     - name: Install Solana
-      uses: tensor-foundation/actions/install-solana@v1
+      uses: tensor-foundation/actions/install-solana@v2
       with:
         version: ${{ inputs.solana }}
         cache: ${{ inputs.cache }}
 
     - name: Install Node.js
-      uses: tensor-foundation/actions/install-node-with-pnpm@v1
+      uses: tensor-foundation/actions/install-node-with-pnpm@v2
       with:
         version: ${{ inputs.node }}
         cache: ${{ inputs.cache }}
