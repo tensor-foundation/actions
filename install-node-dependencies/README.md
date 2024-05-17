@@ -3,7 +3,7 @@
 Install Node.js dependencies with optional caching.
 
 ```yaml
-- uses: tensor-foundation/actions/install-node-dependencies@v1
+- uses: tensor-foundation/actions/install-node-dependencies@v2
   with:
     folder: .
     command: pnpm install --frozen-lockfile

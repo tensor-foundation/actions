@@ -3,7 +3,7 @@
 Install Solana with optional caching and verify the installed version.
 
 ```yaml
-- uses: tensor-foundation/actions/install-solana@v1
+- uses: tensor-foundation/actions/install-solana@v2
   with:
     version: stable
     cache: true

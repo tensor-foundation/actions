@@ -3,7 +3,7 @@
 Cache the hidden folder that stores IDL generators, such as Shank and Anchor.
 
 ```yaml
-- uses: tensor-foundation/actions/cache-idl-generators@v1
+- uses: tensor-foundation/actions/cache-idl-generators@v2
   with:
     path: ./.crates/
     key: idl-generators

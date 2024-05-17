@@ -50,11 +50,12 @@ jobs:
     name: Rust project
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions-rs/toolchain@v1
-        with:
-          toolchain: stable
-      - uses: tensor-foundation/cargo@v1
+      - uses: actions/checkout@v4
+
+      - name: Install Rust
+        uses: tensor-foundation/actions/install-rust@v2
+
+      - uses: tensor-foundation/cargo@v2
         with:
           command: build
           args: --release --all-features
@@ -74,10 +75,11 @@ jobs:
     name: Rust project
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions-rs/toolchain@v1
-        with:
-          toolchain: stable
+      - uses: actions/checkout@v4
+
+      - name: Install Rust
+        uses: tensor-foundation/actions/install-rust@v2
+
       - run: cargo build --release --all-features
 ```
 
@@ -123,13 +125,16 @@ jobs:
     name: Linux ARMv7
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions-rs/toolchain@v1
+      - uses: actions/checkout@v4
+
+      - name: Install Rust
+        uses: tensor-foundation/actions/install-rust@v2
         with:
           toolchain: stable
           target: armv7-unknown-linux-gnueabihf
           override: true
-      - uses: tensor-foundation/cargo@v1
+
+      - uses: tensor-foundation/cargo@v2
         with:
           use-cross: true
           command: build

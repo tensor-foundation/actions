@@ -3,7 +3,7 @@
 Install cargo-release with optional caching and verify the installed version.
 
 ```yaml
-- uses: tensor-foundation/actions/install-cargo-release@v1
+- uses: tensor-foundation/actions/install-cargo-release@v2
   with:
     cache: true
     version: "0.25.40"
