@@ -13,12 +13,18 @@ inputs:
     description: Whether installed dependencies should be cached
     required: true
     default: "true"
+  pnpm-version:
+    description: The PNPM version to install
+    required: false
+    default: "9.1"
 
 runs:
   using: "composite"
   steps:
     - name: Install pnpm
-      uses: pnpm/action-setup@v3
+      uses: pnpm/action-setup@v4
+      with:
+        version: ${{ fromJson(inputs.pnpm-version) }}
 
     - name: Setup Node.js
       uses: actions/setup-node@v4
