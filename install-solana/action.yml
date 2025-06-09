@@ -6,7 +6,7 @@ inputs:
     required: true
     default: "stable"
   cache:
-    description: Whether the built Solana release should be cached
+    description: Whether the downloaded Solana release should be cached
     required: true
     default: "true"
 
