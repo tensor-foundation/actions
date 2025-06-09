@@ -6,7 +6,7 @@ inputs:
     required: true
     default: "stable"
   cache:
-    description: Whether the downloaded Solana release should be cached
+    description: Whether the built Solana release should be cached
     required: true
     default: "true"
 
@@ -19,12 +19,31 @@ runs:
       uses: actions/cache@v4
       with:
         path: ~/.local/share/solana/install/releases/${{ inputs.version }}
-        key: ${{ runner.os }}-solana-v${{ inputs.version }}
+        key: ${{ runner.os }}-solana-source-v${{ inputs.version }}
 
-    - name: Install Solana
+    - name: Install Build Dependencies
       if: inputs.cache != 'true' || steps.cache.outputs.cache-hit != 'true'
       run: |
-        sh -c "$(curl -sSfL https://release.anza.xyz/v${{ inputs.version }}/install)"
+        if [ "$RUNNER_OS" == "Linux" ]; then
+          sudo apt-get update
+          sudo apt-get install -y build-essential pkg-config libudev-dev llvm libclang-dev protobuf-compiler
+        elif [ "$RUNNER_OS" == "macOS" ]; then
+          if ! command -v brew &> /dev/null; then
+            echo "Installing Homebrew..."
+            /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+            echo "Homebrew installed successfully"
+          fi
+          brew install pkg-config libudev protobuf llvm coreutils
+        fi
+      shell: bash
+
+
+    - name: Build Solana from Source
+      if: inputs.cache != 'true' || steps.cache.outputs.cache-hit != 'true'
+      run: |
+        git clone --depth 1 --branch v${{ inputs.version }} https://github.com/solana-labs/solana.git
+        cd solana
+        ./scripts/cargo-install-all.sh ~/.local/share/solana/install/releases/${{ inputs.version }}
       shell: bash
 
     - name: Set Active Solana Version
