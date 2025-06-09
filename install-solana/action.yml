@@ -13,51 +13,72 @@ inputs:
 runs:
   using: "composite"
   steps:
+    - name: Determine Platform Info
+      id: platform
+      run: |
+        case "$(uname -s)" in
+          Linux*)
+            echo "installer=solana-install-init-x86_64-unknown-linux-gnu" >> $GITHUB_OUTPUT
+            echo "release=solana-release-x86_64-unknown-linux-gnu.tar.bz2" >> $GITHUB_OUTPUT
+            ;;
+          Darwin*)
+            if [ "$(uname -m)" = "arm64" ]; then
+              echo "installer=solana-install-init-aarch64-apple-darwin" >> $GITHUB_OUTPUT
+              echo "release=solana-release-aarch64-apple-darwin.tar.bz2" >> $GITHUB_OUTPUT
+            else
+              echo "installer=solana-install-init-x86_64-apple-darwin" >> $GITHUB_OUTPUT
+              echo "release=solana-release-x86_64-apple-darwin.tar.bz2" >> $GITHUB_OUTPUT
+            fi
+            ;;
+          MINGW*|MSYS*)
+            echo "installer=solana-install-init-x86_64-pc-windows-msvc.exe" >> $GITHUB_OUTPUT
+            echo "release=solana-release-x86_64-pc-windows-msvc.tar.bz2" >> $GITHUB_OUTPUT
+            ;;
+        esac
+      shell: bash
+
     - name: Cache Solana
       id: cache
       if: inputs.cache == 'true'
       uses: actions/cache@v4
       with:
         path: ~/.local/share/solana/install/releases/${{ inputs.version }}
-        key: ${{ runner.os }}-solana-source-v${{ inputs.version }}
+        key: ${{ runner.os }}-solana-installer-v${{ inputs.version }}
 
-    - name: Install Build Dependencies
-      if: inputs.cache != 'true' || steps.cache.outputs.cache-hit != 'true'
+    - name: Setup Cached Solana
+      if: inputs.cache == 'true' && steps.cache.outputs.cache-hit == 'true'
       run: |
-        if [ "$RUNNER_OS" == "Linux" ]; then
-          sudo apt-get update
-          sudo apt-get install -y build-essential pkg-config libudev-dev llvm libclang-dev protobuf-compiler
-        elif [ "$RUNNER_OS" == "macOS" ]; then
-          if ! command -v brew &> /dev/null; then
-            echo "Installing Homebrew..."
-            /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-            echo "Homebrew installed successfully"
-          fi
-          brew install pkg-config libudev protobuf llvm coreutils
-        fi
-      shell: bash
-
-
-    - name: Build Solana from Source
-      if: inputs.cache != 'true' || steps.cache.outputs.cache-hit != 'true'
-      run: |
-        git clone --depth 1 --branch v${{ inputs.version }} https://github.com/solana-labs/solana.git
-        cd solana
-        ./scripts/cargo-install-all.sh ~/.local/share/solana/install/releases/${{ inputs.version }}
-      shell: bash
-
-    - name: Set Active Solana Version
-      run: |
-        rm -f "$HOME/.local/share/solana/install/active_release"
-        ln -s "$HOME/.local/share/solana/install/releases/${{ inputs.version }}/solana-release" "$HOME/.local/share/solana/install/active_release"
-      shell: bash
-
-    - name: Add Solana bin to Path
-      run: |
+        cd ~/.local/share/solana/install
+        rm -f active_release
+        ln -s releases/${{ inputs.version }}/solana-release active_release
+        export PATH="$HOME/.local/share/solana/install/active_release/bin:$PATH"
         echo "$HOME/.local/share/solana/install/active_release/bin" >> $GITHUB_PATH
+        solana --version
       shell: bash
 
-    - name: Verify Solana install
+    - name: Download and Install Solana
+      if: inputs.cache != 'true' || steps.cache.outputs.cache-hit != 'true'
       run: |
+        mkdir -p ~/.local/share/solana/install/releases/${{ inputs.version }}
+        cd ~/.local/share/solana/install/releases/${{ inputs.version }}
+        if curl -f -L -o solana-release.tar.bz2 \
+          https://github.com/anza-xyz/agave/releases/download/v${{ inputs.version }}/${{ steps.platform.outputs.release }}; then
+          echo "Successfully downloaded from anza-xyz/agave"
+        else
+          echo "Version not found in anza releases, trying solana-labs/solana..."
+          if curl -f -L -o solana-release.tar.bz2 \
+            https://github.com/solana-labs/solana/releases/download/v${{ inputs.version }}/${{ steps.platform.outputs.release }}; then
+            echo "Successfully downloaded from solana-labs/solana"
+          else
+            echo "Version not found in solana releases"
+            exit 1
+          fi
+        fi
+        tar jxf solana-release.tar.bz2
+        cd ~/.local/share/solana/install
+        rm -f active_release
+        ln -s releases/${{ inputs.version }}/solana-release active_release
+        export PATH="$HOME/.local/share/solana/install/active_release/bin:$PATH"
+        echo "$HOME/.local/share/solana/install/active_release/bin" >> $GITHUB_PATH
         solana --version
       shell: bash

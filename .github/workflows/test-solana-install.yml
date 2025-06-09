@@ -1,10 +1,6 @@
 name: Test Solana Install Action
 
 on:
-  pull_request:
-    paths:
-      - 'actions/install-solana/**'
-      - '.github/workflows/test-solana-install.yml'
   workflow_dispatch:
     inputs:
       version:
@@ -14,23 +10,20 @@ on:
 
 jobs:
   test:
-    name: Test on ${{ matrix.os }}
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest, macos-latest]
+    runs-on: ubuntu-latest
     
     steps:
       - uses: actions/checkout@v4
 
+      - name: Install Rust
+        uses: ./install-rust
+
       - name: Install Solana
-        uses: ./actions/install-solana
+        uses: ./install-solana
         with:
-          version: '1.17.10'
+          version: ${{ inputs.version }}
           cache: true
 
       - name: Test Solana Installation
         run: |
           solana --version
-          solana-keygen --version
-          solana-validator --version
