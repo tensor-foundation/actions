@@ -1,0 +1,29 @@
+name: Test Solana Install Action
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Solana version to test'
+        required: true
+        default: '1.17.10'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Rust
+        uses: ./install-rust
+
+      - name: Install Solana
+        uses: ./install-solana
+        with:
+          version: ${{ inputs.version }}
+          cache: true
+
+      - name: Test Solana Installation
+        run: |
+          solana --version
